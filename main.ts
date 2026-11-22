@@ -1,7 +1,7 @@
 import{mkdirSync as a,readdirSync as b,readFileSync as c,writeFileSync as d}from'node:fs'
 function run(p,e){
-let D=new Int32Array(256),C=new Int32Array(64),M=new Int32Array(256),w=new Uint8Array(65536),n=p.length,s=0,k=0,l=0,i=0,pc=0,t=0
-let E=(c)=>[w.slice(0,l),c]
+let F=n=>new Int32Array(n),D=F(256),C=F(64),M=F(256),w=new Uint8Array(65536),n=p.length,s=0,k=0,l=0,i=0,pc=0,t=0
+let E=c=>[w.slice(0,l),c]
 for(;;){
 if(t>999999)return E(10)
 if(pc<0||pc>=n)return E(9)
@@ -33,7 +33,7 @@ else if(o==27)D[s-1]=~D[s-1]
 else if(o>79){
 if(o==82)D[s++]=i<e.length?e[i++]:-1
 else if(o==83)return E(D[s-1]&255)
-else if(o==80){let v=''+D[s-1];if(l+v.length>65536)return E(11);s--;for(let j=0;j<v.length;j++)w[l++]=v.charCodeAt(j)}
+else if(o==80){let v=''+D[s-1];if(l+v.length>65536)return E(11);s--;for(let j=0;j<v.length;)w[l++]=v.charCodeAt(j++)}
 else{if(l>65535)return E(11);w[l++]=D[--s]&255}
 }
 else if(o>63){let v=D[s-1];if(v>>>8)return E(6);if(o==64)D[s-1]=M[v];else{M[v]=D[s-2];s-=2}}
@@ -67,8 +67,8 @@ else D[s-1]=(a>>>0)<(b>>>0)?1:0
 }
 const I=process.env.MAKEFUN_INPUT_DIR??'/input',O=process.env.MAKEFUN_OUTPUT_DIR??'/output'
 for(let id of b(I).sort()){
-let r=run(new Uint8Array(c(I+'/'+id+'/program.bin')),new Uint8Array(c(I+'/'+id+'/input.bin')))
-a(O+'/'+id,{recursive:true})
-d(O+'/'+id+'/stdout.bin',r[0])
-d(O+'/'+id+'/exit.txt',r[1]+'\n')
+let r=run(new Uint8Array(c(I+'/'+id+'/program.bin')),new Uint8Array(c(I+'/'+id+'/input.bin'))),z=O+'/'+id
+a(z,{recursive:true})
+d(z+'/stdout.bin',r[0])
+d(z+'/exit.txt',r[1]+'\n')
 }
